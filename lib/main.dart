@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,6 +52,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  var _estado = false;
+  final _formKey = GlobalKey<FormState>();
+  String _estadoPalavra = 'desligado';
+  int _resultado = 1;
 
   void _incrementCounter() {
     setState(() {
@@ -59,10 +64,30 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter+=2;
+      _counter += 2;
     });
   }
 
+  void _mudaEstado() {
+    setState(() {
+      if (_estado == false) {
+        _estado = true;
+        _estadoPalavra = 'ligado';
+      }
+      if (_estado == true) {
+        _estado = false;
+        _estadoPalavra = 'desligado';
+      }
+    });
+  }
+
+  void _multiplicaValor() {
+    setState(() {
+    _resultado *= _resultado;
+    });
+  }
+
+/*
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -131,8 +156,139 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add_alarm_sharp),
-        backgroundColor: Color.fromARGB(100, 255, 0, 255),
+        backgroundColor: Color.fromARGB(50, 255, 0, 255),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+  */
+/*
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
+      ),
+      body: Container(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: <Widget>[
+                  Text('$_estadoPalavra'),
+                ],
+              ),
+            ),
+            Column(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.add_circle_rounded),
+                  onPressed: _mudaEstado,
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: Column(children: <Widget>[
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Digite um número',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'campo vazio';
+                        }
+                        return null;
+                      },
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {}
+                          },
+                          child: Text('Submit'),
+                        )
+                    )
+                  ]
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: Column(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Digite um número',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'campo vazio';
+                    }
+                    return null;
+                  },
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: _multiplicaValor,
+                    child: Text('Calcular'),
+                  ))
+            ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: RichText(
+              text: TextSpan(
+                text: 'sç~lfk',
+              ),
+              strutStyle: StrutStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
