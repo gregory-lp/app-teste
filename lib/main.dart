@@ -50,13 +50,40 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+final SnackBar snackBar = const SnackBar(content: Text('Showing Snackbar'));
+
+void openPage(BuildContext context) {
+  Navigator.push(context, MaterialPageRoute(
+    builder: (BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Next page'),
+        ),
+        body: const Center(
+          child: Text(
+            'This is the next page',
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+      );
+    },
+  ));
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  var _estado = false;
+  bool _estado = false;
   final _formKey = GlobalKey<FormState>();
   String _estadoPalavra = 'desligado';
-  int _resultado = 1;
+  int _resultado = 0;
 
+  //int _valorUm = 0;
+  //int _valorDois = 0;
+  final valorUmcontroller = TextEditingController();
+  final valorDoiscontroller = TextEditingController();
+
+/*
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -80,11 +107,25 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
   }
-
+*/
   void _multiplicaValor() {
     setState(() {
-    _resultado *= _resultado;
+      _resultado =
+          int.parse(valorUmcontroller.text) * int.parse(valorUmcontroller.text);
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(content: Text('$_resultado'));
+          });
     });
+  }
+
+  @override
+  void dispose() {
+    valorUmcontroller.dispose();
+    valorDoiscontroller.dispose();
+    super.dispose();
   }
 
 /*
@@ -244,49 +285,70 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        key: scaffoldKey,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_a_photo_outlined),
+            onPressed: () {
+              scaffoldKey.currentState.showSnackBar(snackBar);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.navigate_next),
+            tooltip: 'Próxima página',
+            onPressed: () {
+              openPage(context);
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
           Form(
             key: _formKey,
-            child: Column(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Digite um número',
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    children: <Widget>[
+                      TextField(
+                        decoration: const InputDecoration(
+                          hintText: 'Digite um número um',
+                        ),
+                        controller: valorUmcontroller,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                      TextField(
+                        decoration: const InputDecoration(
+                          hintText: 'Digite um número dois',
+                        ),
+                        controller: valorDoiscontroller,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ],
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'campo vazio';
-                    }
-                    return null;
-                  },
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
                 ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: _multiplicaValor,
-                    child: Text('Calcular'),
-                  ))
-            ]),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: _multiplicaValor,
+                      child: Text('Calcular'),
+                    ))
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RichText(
-              text: TextSpan(
-                text: 'sç~lfk',
-              ),
-              strutStyle: StrutStyle(
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Text(
+              '$_resultado',
+              style: Theme.of(context).textTheme.headline4,
             ),
-          )
+          ),
         ],
       ),
     );
