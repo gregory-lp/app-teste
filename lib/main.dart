@@ -128,149 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-/*
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many vezes teste:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              'Teste',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)
-            ),
-          MaterialButton(
-            onPressed: _incrementCounter,
-            child: Text(
-              'Adicionar',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.white,
-              )
-            ),
-            color: Color.fromARGB(100, 255, 0, 255),
-            padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-          ),
-            IconButton(
-              icon: Icon(Icons.add_alarm_sharp),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add_alarm_sharp),
-        backgroundColor: Color.fromARGB(50, 255, 0, 255),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-  */
-/*
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Container(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: <Widget>[
-                  Text('$_estadoPalavra'),
-                ],
-              ),
-            ),
-            Column(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.add_circle_rounded),
-                  onPressed: _mudaEstado,
-                )
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(children: <Widget>[
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Digite um número',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'campo vazio';
-                        }
-                        return null;
-                      },
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {}
-                          },
-                          child: Text('Submit'),
-                        )
-                    )
-                  ]
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
+  Future<String> _calculation =
+      Future<String>.delayed(Duration(seconds: 2), () => 'Data carregado');
+
 
   @override
   Widget build(BuildContext context) {
@@ -302,54 +162,128 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Column(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Row(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    children: <Widget>[
-                      TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'Digite um número um',
-                        ),
-                        controller: valorUmcontroller,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                      TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'Digite um número dois',
-                        ),
-                        controller: valorDoiscontroller,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                    ],
+                Container(
+                  color: Colors.blue,
+                  height: 100,
+                  width: 100,
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    color: Colors.green,
+                    height: 100,
+                    width: 100,
                   ),
                 ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: _multiplicaValor,
-                      child: Text('Calcular'),
-                    ))
+                Container(
+                  color: Colors.blue,
+                  height: 100,
+                  width: 100,
+                ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Text(
-              '$_resultado',
-              style: Theme.of(context).textTheme.headline4,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 10.0,
+                runSpacing: 20.0,
+                children: [
+                  Opacity(
+                    opacity: 0.10,
+                    child: Container(
+                      color: Colors.blue,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  Container(
+                    color: Colors.amber,
+                    height: 100,
+                    width: 100,
+                  ),
+                  Container(
+                    color: Colors.pink,
+                    height: 100,
+                    width: 100,
+                  ),
+                  Container(
+                    color: Colors.black,
+                    height: 100,
+                    width: 100,
+                  ),
+                  Container(
+                    color: Colors.green,
+                    height: 100,
+                    width: 100,
+                  ),
+                  Container(
+                    color: Colors.tealAccent,
+                    height: 100,
+                    width: 100,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              child: FutureBuilder<String>(
+                  future: _calculation,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    List<Widget> children;
+                    if (snapshot.hasData) {
+                      children = <Widget>[
+                        Icon(
+                          Icons.check_circle_outline,
+                          color: Colors.green,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Resultado:  ${snapshot.data}'),
+                        )
+                      ];
+                    } else if (snapshot.hasError) {
+                      children = <Widget>[
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ];
+                    } else {
+                      children = <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Esperando resultado...'),
+                        )
+                      ];
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: children,
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
